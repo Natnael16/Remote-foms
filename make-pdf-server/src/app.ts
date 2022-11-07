@@ -24,7 +24,9 @@ const os = require("os");
 import PdfForm from "../src/models/form"
 import uploader from '../src/utils/uploader';
 import cloudinaryConfigs from "./utils/cloudinary";
+import console, { error } from "console";
 const cloudinary = require("cloudinary").v2;
+const fs = require('fs');
 cloudinary.config(cloudinaryConfigs)
 
 
@@ -51,26 +53,48 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); 
 app.use(cors());
 
-app.post("/create-pdf",async (req, res) => {
 
-  const {name, id, phone, department, image, regNo} = req.body
-
-
+app.post("/create-pdf",uploader.uploadImage, async (req, res) => {
+  
   try{
 
-  const uploadToCloudinary =  async (image) => {
-  const res = await cloudinary.uploader.upload(image)
-  return res
-}
-  const result = uploadToCloudinary(image.path)
-  console.log(result)
-  const browser = await puppeteer.launch();
+    console.log(req.body)
+    const created_doc = await PdfForm.create(req.body)
+    res.status(201).send({"Document" : created_doc})
+    console.log(created_doc)
+
+  }catch(error){
+    console.log("error in body")
+    res.status(401).send({"error" : error.message})
+  } 
+
+});
+
+app.get("/fetch-pdf", async (req, res) => {
+  try{
+    const uploaded = await PdfForm.find().sort("-createdAt")
+    res.status(200).send(uploaded)
+  }catch(error){
+    res.status(404).send({"error" : error.message})
+
+  }
+  
+});
+
+
+const generate = async (body) => {
+  
+  try {
+
+  
+  const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
 
   // Create a new page
   const page = await browser.newPage();
 
   //Get HTML content from HTML file
-  await page.setContent(generatePdf(req.body), { waitUntil: 'domcontentloaded' });
+  var contentHtml = fs.readFileSync(generatePdf(body), 'utf8');
+  await page.setContent(contentHtml, { waitUntil: 'domcontentloaded' });
 
   // To reflect CSS used for screens instead of print
   await page.emulateMediaType('screen');
@@ -79,22 +103,17 @@ app.post("/create-pdf",async (req, res) => {
   const pdf = await page.pdf({
     landscape: true,
     path: 'generatedPdfs/result.pdf',
-    format : "A4"
+    format : "A4",
+    printBackground: true
   });
 
+
   await browser.close();
-  res.json({pdf})
+  // res.json({pdf})
   }
   catch(e) {
-    console.log(e.message)
+    // res.json(e.message)
   }
- 
-  
-});
- 
-app.get("/fetch-pdf", (req, res) => {
-  res.sendFile(`${__dirname}/generatedPdfs/result.pdf`)
-});
-
+}
 export default app;
  

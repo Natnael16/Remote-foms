@@ -55,7 +55,7 @@ return `
     <div class="">
     <section>
             <span style="margin-left: 5px; margin-right: 80px;">
-        <label for="name">Name </label>
+        <label for="name">NAME </label>
          <input disabled type="text" name="name" class="inputs" value="${name}">
         </span>
         <span style="margin-left: 5px; margin-right: 80px;">

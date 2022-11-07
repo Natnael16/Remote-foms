@@ -4,43 +4,36 @@ const pdfSchema = new mongoose.Schema({
 
     name :{
         type: String,
-        required : [true,"Please add your name"],
+        // required : [true,"Please add your name"],
 
     },
     department :{
         type: String,
-        required : [true,"Please add your department"],
+        // required : [true,"Please add your department"],
 
     },
     regNo :{
         type: Number,
-        required : [true,"Please add your Registration No"],
+        // required : [true,"Please add your Registration No"],
 
     },
     id :{
         type: Number,
-        required : [true,"Please add your Id"],
+        // required : [true,"Please add your Id"],
 
     },
-    image :{
-        public_id: {
-            type : String,
-            required:true
-        },
-        url : {
-            type: String,
-            required: true
-        }
-        
+    image : {
+        type: String,
+        required : true
 
     },
     phone :{
         type: String,
-        required : [true,"Please add your phone"],
+        // required : [true,"Please add your phone"],
 
     },
 },
 {timestamps : true})
 
-const PdfForm = mongoose.model("Business", pdfSchema);
+const PdfForm = mongoose.model("PdfForm", pdfSchema);
 export default PdfForm;

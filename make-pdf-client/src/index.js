@@ -13,21 +13,6 @@ class App extends Component {
     phone:"",
     image:undefined
   };
-  // createAndDownload = (event) => {
-    
-  //   console.log(this.state,'num')
-  //   event.preventdefault();
-  // }
-    
-    // axios
-    //   .post("/create-pdf", this.state)
-    //   .then(() => axios.get("fetch-pdf", { responseType: "blob" }))
-    //   .then((res) => {
-    //     console.log("states", res)
-    //     const pdfBlob = new Blob([res.data],{type : "application/pdf"});
-    //     FileSaver.saveAs(pdfBlob, "newPdf.pdf")
-     //       });
-    // }
  
   handleChange = (event) => {
 
@@ -58,29 +43,32 @@ class App extends Component {
 
     
     const formdata = new FormData();
+    formdata.append("name", this.state.name)
     formdata.append("image" , this.state.image)
     formdata.append("regNo" , this.state.regNo)
     formdata.append("department" , this.state.department)
     formdata.append("id" , this.state.id)
     formdata.append("phone" , this.state.phone)
 
-    Axios({
+    const response = await Axios({
       url : "/create-pdf",
       method : "POST",
       data : formdata
     })
-    //  Axios.post("", formdata, {
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    // })
-    event.preventDefault();
+    console.log(response)
     
     
   }
 
+  fetchPdf =  async () => {
+    const res = await Axios.get("/fetch-pdf")
+    console.log(res.data)
+
+  }
+
   render() {
     return (
+      <div>
      <form enctype="multipart/form-data" onSubmit={this.createAndDownload}>
         <label>
           Name 
@@ -114,6 +102,10 @@ class App extends Component {
           <br/>
         <input type="submit" value="Submit" />
       </form>
+      <button onClick={this.fetchPdf}>Fetch</button>
+      
+      </div>
+      
     );
   }
 }
