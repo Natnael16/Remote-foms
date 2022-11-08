@@ -4,22 +4,24 @@ const pdfSchema = new mongoose.Schema({
 
     name :{
         type: String,
-        // required : [true,"Please add your name"],
+        required : [true,"Please add your name"],
 
     },
     department :{
         type: String,
-        // required : [true,"Please add your department"],
+        required : [true,"Please add your department"],
 
     },
     regNo :{
         type: Number,
-        // required : [true,"Please add your Registration No"],
+        unique: true,
+        required : [true,"Please add your Registration No"],
 
     },
     id :{
         type: Number,
-        // required : [true,"Please add your Id"],
+        unique: true,
+        required : [true,"Please add your Id"],
 
     },
     image : {
@@ -29,7 +31,7 @@ const pdfSchema = new mongoose.Schema({
     },
     phone :{
         type: String,
-        // required : [true,"Please add your phone"],
+        required : [true,"Please add your phone"],
 
     },
 },

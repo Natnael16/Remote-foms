@@ -24,7 +24,7 @@ const os = require("os");
 import PdfForm from "../src/models/form"
 import uploader from '../src/utils/uploader';
 import cloudinaryConfigs from "./utils/cloudinary";
-import console, { error } from "console";
+
 const cloudinary = require("cloudinary").v2;
 const fs = require('fs');
 cloudinary.config(cloudinaryConfigs)
@@ -81,20 +81,29 @@ app.get("/fetch-pdf", async (req, res) => {
   
 });
 
+app.get("/download-pdf", async (req, res)=>{
+  try{
+      const pdf = await generate(req.body)
+      console.log("downloading ...")
+      res.status(200).send(pdf)
+  }catch(error){
+    res.status(501)
+  }
+  
+})
+
 
 const generate = async (body) => {
   
   try {
 
-  
-  const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+  const browser = await puppeteer.launch();
 
   // Create a new page
   const page = await browser.newPage();
 
   //Get HTML content from HTML file
-  var contentHtml = fs.readFileSync(generatePdf(body), 'utf8');
-  await page.setContent(contentHtml, { waitUntil: 'domcontentloaded' });
+  await page.setContent(generatePdf(body), { waitUntil: 'domcontentloaded' });
 
   // To reflect CSS used for screens instead of print
   await page.emulateMediaType('screen');
@@ -102,17 +111,15 @@ const generate = async (body) => {
   // Downlaod the PDF
   const pdf = await page.pdf({
     landscape: true,
-    path: 'generatedPdfs/result.pdf',
-    format : "A4",
-    printBackground: true
+    path: `generatedPdfs/${body.name}.pdf`,
+    format : "A4"
   });
-
-
   await browser.close();
-  // res.json({pdf})
+  return pdf
   }
   catch(e) {
-    // res.json(e.message)
+    console.log(e.message)
+    return null
   }
 }
 export default app;

@@ -3,6 +3,7 @@ import ReactDom from "react-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import Axios from "axios";
 import FormData from "form-data"
+import PdfLists from "./components/pdfLists";
 
 class App extends Component {
   state = {
@@ -11,8 +12,12 @@ class App extends Component {
     department: "",
     id: 0,
     phone:"",
-    image:undefined
+    image:undefined,
+    fetchedData : []
+    
   };
+
+  
  
   handleChange = (event) => {
 
@@ -62,8 +67,8 @@ class App extends Component {
 
   fetchPdf =  async () => {
     const res = await Axios.get("/fetch-pdf")
-    console.log(res.data)
-
+    this.setState({fetchedData: res.data})
+    console.log(this.state.fetchedData)
   }
 
   render() {
@@ -103,7 +108,9 @@ class App extends Component {
         <input type="submit" value="Submit" />
       </form>
       <button onClick={this.fetchPdf}>Fetch</button>
-      
+
+      <PdfLists dataList={this.state.fetchedData}/>
+
       </div>
       
     );
