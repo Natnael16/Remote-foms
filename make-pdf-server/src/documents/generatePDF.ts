@@ -64,7 +64,9 @@ return `
         </span>
         <span style="margin-left: 5px; margin-right: 80px;">
             <label for="date">DATE </label>
-            <input disabled type="text" name="date" class="inputs" value="${`${today.getDate()}. ${today.getMonth() + 1}. ${today.getFullYear()}.`}">
+            <input disabled type="text" name="date" class="inputs" value="${`${today.getDate()}. ${
+              today.getMonth() + 1
+            }. ${today.getFullYear()}.`}">
         </span>
     </section>
     <section>
@@ -84,6 +86,7 @@ return `
     <section>
         <div class="image-container">
             <img class="image" src="${image}" alt="The route for the house">
+
         </div>
     </section>
         
