@@ -4,9 +4,9 @@
   "description": "Micro Yelp",
   "main": "src/server.ts",
   "engines": {
-   "node" : "14.x"
+    "node": "14.x"
   },
-  "scripts": { 
+  "scripts": {
     "dev": "nodemon --files src/server.ts",
     "start": "tsc && node src/server.ts",
     "postinstall": "tsc",
@@ -37,7 +37,7 @@
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb-memory-server": "^7.3.6",
-    "mongoose": "^6.7.1",
+    "mongoose": "^6.7.2",
     "morgan": "^1.10.0",
     "multiparty": "^4.2.3",
     "node-cron": "^3.0.1",
@@ -59,7 +59,6 @@
     "@types/cors": "^2.8.12",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.1",
-
     "@types/node": "^18.6.4",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.32.0",

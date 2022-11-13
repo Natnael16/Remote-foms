@@ -1,7 +1,6 @@
-import mongoose from 'mongoose'
 import configs from './config/configs'
 import app from './app'
-import dotenv from 'dotenv'
+import mongoose from 'mongoose'
 
 mongoose
   .connect(configs.DB_URI)
