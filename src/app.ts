@@ -1,6 +1,4 @@
-import express, {
-  Application
-} from "express";
+import express, { Application } from "express";
 
 import cors from "cors";
 // import { exportImages } from "pdf-into-jpg";
@@ -10,7 +8,7 @@ import bodyParser from "body-parser";
 import puppeteer from "puppeteer";
 
 const app: Application = express();
-
+import path from "path";
 const formData = require("express-form-data");
 const os = require("os");
 import PdfForm from "../src/models/form";
@@ -38,10 +36,10 @@ app.use(formData.union());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
-
-app.get("/", (req, res)=> {
-  res.status(200).send("working properly")
-})
+app.use(express.static(__dirname));
+app.get("/", (req, res) => {
+  res.status(200).send("working properly");
+});
 app.post("/create-pdf", uploader.uploadImage, async (req, res) => {
   try {
     const created_doc = await PdfForm.create(req.body);
@@ -74,7 +72,10 @@ app.post("/download-pdf", async (req, res) => {
   try {
     const pdf = await generate(req.body);
     console.log("downloading ...");
-
+    const filepath = path.join(
+      __dirname,
+      `${req.body.name}${req.body.regNo}.pdf`
+    );
     // var pdftoimage = require("pdftoimage");
     // var file = pdf;
 
@@ -90,18 +91,17 @@ app.post("/download-pdf", async (req, res) => {
     //   .catch((err) =>{
     //     console.log(err.message);
     //   });
-
-    res.download(`${__dirname}/${req.body.name}${req.body.regNo}.pdf`);
+    res.download(filepath);
 
     setTimeout(function () {
-      fs.unlink(`${__dirname}/${req.body.name}${req.body.regNo}.pdf`, (err) => {
+      fs.unlink(filepath, (err) => {
         if (err) {
-          console.log("delete failed");
+          // console.log("delete failed");
         }
 
         // console.log(
         //   "FILE [" +
-        //     `${__dirname}/${req.body.name}${req.body.regNo}.pdf` +
+        //    ${req.body.name}${req.body.regNo}.pdf` +
         //     "] REMOVED!"
         // );
       });
@@ -140,7 +140,7 @@ const generate = async (body) => {
     // Downlaod the PDF
     const pdf = await page.pdf({
       landscape: true,
-      path: `src/${body.name}${body.regNo}.pdf`,
+      path: path.join(__dirname, `${body.name}${body.regNo}.pdf`),
       format: "A4",
       printBackground: true
     });
