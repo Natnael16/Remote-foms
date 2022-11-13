@@ -7,10 +7,9 @@
    "node" : "14.x"
   },
   "scripts": { 
-    "test": "jest --runInBand --detectOpenHandles",
-    "test-coverage": "jest --runInBand --detectOpenHandles --coverage",
     "dev": "nodemon --files src/server.ts",
     "start": "tsc && node src/server.ts",
+    "postinstall": "tsc",
     "lint": "eslint . --ext .ts",
     "build": "tsc -p .",
     "prettier-watch": "onchange 'src/**/*.ts' -- prettier --write {{changed}}"
