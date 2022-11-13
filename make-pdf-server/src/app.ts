@@ -39,6 +39,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
+app.get("/", (req, res)=> {
+  res.status(200).send("working properly")
+})
 app.post("/create-pdf", uploader.uploadImage, async (req, res) => {
   try {
     const created_doc = await PdfForm.create(req.body);
