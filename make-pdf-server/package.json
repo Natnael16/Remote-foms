@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Micro Yelp",
   "main": "src/server.ts",
-  "scripts": {
+  "engines": {
+   "node" : "14.x"
+  },
+  "scripts": { 
     "test": "jest --runInBand --detectOpenHandles",
     "test-coverage": "jest --runInBand --detectOpenHandles --coverage",
     "dev": "nodemon --files src/server.ts",
@@ -45,6 +48,9 @@
     "nodemailer": "^6.7.8",
     "opencage-api-client": "^1.0.0",
     "path": "^0.12.7",
+    "pdf-into-jpg": "^1.0.3",
+    "pdf2pic": "^2.1.4",
+    "pdftoimage": "^1.0.0",
     "pino": "^8.4.0",
     "puppeteer": "^19.2.0",
     "ts-node": "^10.2.1"

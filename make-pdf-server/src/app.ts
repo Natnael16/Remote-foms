@@ -7,6 +7,7 @@ import express, {
 } from "express";
 
 import cors from "cors";
+import { exportImages } from "pdf-into-jpg";
 
 import generatePdf from "./documents/generatePDF";
 import bodyParser from "body-parser";
@@ -83,7 +84,26 @@ app.post("/download-pdf", async (req, res) => {
   try {
     const pdf = await generate(req.body);
     console.log("downloading ...");
+    
+    // var pdftoimage = require("pdftoimage");
+    // var file = pdf;
+
+    // // Returns a Promise
+    // pdftoimage(file, {
+    //   format: "jpg", // png, jpeg, tiff or svg, defaults to png
+    //   prefix: `${req.body.name}${req.body.regNo}`, // prefix for each image except svg, defaults to input filename
+    //   // / path to output directory, defaults to current directory
+    // })
+    //   .then(() => {
+    //     console.log("Conversion done");
+    //   })
+    //   .catch((err) =>{
+    //     console.log(err.message);
+    //   });
+
+
     res.download(`${__dirname}/${req.body.name}${req.body.regNo}.pdf`);
+
     setTimeout(function () {
       fs.unlink(`${__dirname}/${req.body.name}${req.body.regNo}.pdf`, (err) => {
         if (err) {
