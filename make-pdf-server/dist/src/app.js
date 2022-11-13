@@ -41,8 +41,7 @@ app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 app.post("/create-pdf", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("server called", req.body);
-    console.log(req.files);
+    
     const browser = yield puppeteer_1.default.launch();
     // Create a new page
     const page = yield browser.newPage();

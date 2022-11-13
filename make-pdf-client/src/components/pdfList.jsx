@@ -30,7 +30,7 @@ export default class PdfList extends Component {
   
 
   render() {
-     console.log(this.props.deleting)
+     
     return (
       <div>
       

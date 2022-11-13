@@ -40,7 +40,7 @@ export default class Admin extends Component {
         url : `/delete-pdf/${regNo}`,
         method : "DELETE"
     })
-    console.log(deleted,"del")
+    
     if (deleted.status === 204){
         alert("Delete Successful")
     } else{
