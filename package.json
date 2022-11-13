@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "nodemon --files src/server.ts",
-    "start": "tsc && node src/server.ts",
+    "start": "node dist/src/server.js",
     "postinstall": "tsc",
     "lint": "eslint . --ext .ts",
     "build": "tsc -p .",
